@@ -31,19 +31,19 @@
 			<div class="col-md-4">
 				<div class="deposit status">
 					<h5>Deposit</h5>
-					<h2>$00</h2>
+					<h2>$ <span id="currentDeposit">00</span></h2>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="withdraw status">
 					<h5>Withdraw</h5>
-					<h2>$00</h2>
+					<h2>$ <span id="currentWithdraw">00</span></h2>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="balance status">
 					<h5>Balance</h5>
-					<h2>$1240</h2>
+					<h2>$ <span id="currentBalance">1245</span></h2>
 				</div>
 			</div>
 		</div>
@@ -52,20 +52,82 @@
 
 		<div class="row">
 			<div class="col-md-6 deposit-withdraw-section">
-				<h4>Deposit</h4>
-				<input type="text" name="" id="">
-				<button class="btn success">Deposit</button>
+				<div class="login-form">
+					<h4>Deposit</h4>
+					<input id="depositAmount" class="form-control" type="text" placeholder="$ amount you want to deposit">
+					<br>
+					<button class="btn btn-success" id="addDeposit">Deposit</button>
+				</div>
+
 			</div>
 			<div class="col-md-6 deposit-withdraw-section">
-				<h4>Withdraw</h4>
-				<input type="text" name="" id="">
-				<button class="btn success">Withdraw</button>
+				<div class="login-form">
+					<h4>Withdraw</h4>
+					<input id="withdrawAmount" class="form-control" type="text" placeholder="$ amount you want to withdraw">
+					<br>
+					<button class="btn btn-success" id="addwithdraw">Withdraw</button>
+				</div>
 			</div>
 		</div>
 
 	</div>
 
+<!-- JS code starts here -->
+
 	<script>
+		
+		// Deposit Button eventHandler
+		const depositBtn = document.getElementById("addDeposit");
+		depositBtn.addEventListener("click", () => {
+			const depositAmount = document.getElementById("depositAmount").value;
+			const depositNumber = parseFloat(depositAmount);
+			// const depositNumber = getInputNumber("depositNumber");
+
+			// check currentDeposit amount
+			updateSpanText("currentDeposit", depositNumber);
+			updateSpanText("currentBalance", depositNumber);
+
+			// clear the input field after each entry
+			document.getElementById("depositAmount").value = "";
+		})
+
+		//function for update the span text
+		updateSpanText = (id, depositNumber) => {
+			const current = document.getElementById(id).innerText;
+			const currentNumber = parseFloat(current);
+			const totalAmount = currentNumber + depositNumber;
+			document.getElementById(id).innerText = totalAmount;
+		}
+
+		// Withdraw Button eventHandler
+		const withdrawBtn = document.getElementById("addWithdraw");
+		withdrawBtn.addEventListener("click", () => {
+			// const withdrawAmount = document.getElementById("withdrawAmount").value;
+			// const withdrawNumber = parseFloat(withdrawAmount);
+			const withdrawNumber = getInputNumber("withdrawAmount");
+
+			deleteSpanText("currentWithdraw", depositNumber);
+			deleteSpanText("currentWithdraw", depositNumber);
+
+			document.getElementById("withdrawAmount").value = "";
+		})
+
+
+		getInputNumber = (id) => {
+			const Amount = document.getElementById(id).value;
+			const amountNumber = parseFloat(Amount);
+			return amountNumber;
+		}
+
+
+		deleteSpanText = (id, depositNumber) => {
+			const current = document.getElementById(id).innerText;
+			const currentNumber = parseFloat(current);
+			const totalAmount = currentNumber - depositNumber;
+			document.getElementById(id).innerText = totalAmount;
+		}
+
+		// Login button eventHandler 
 		const loginBtn = document.getElementById("login")
 		loginBtn.addEventListener("click", () => {
 			// Section to hide transaction area initially 
